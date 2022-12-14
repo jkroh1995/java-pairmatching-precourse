@@ -374,3 +374,16 @@ public class Crew {
 - **Git의 커밋 단위는 앞 단계에서 README.md 파일에 정리한 기능 목록 단위**로 추가한다.
     - [AngularJS Commit Message Conventions](https://gist.github.com/stephenparish/9941e89d80e2bc58a153) 참고해 commit log를 남긴다.
 - 과제 진행 및 제출 방법은 [프리코스 과제 제출 문서](https://github.com/woowacourse/woowacourse-docs/tree/master/precourse) 를 참고한다.
+
+
+## 기능 구현 목록
+- [ ] 기능의 선택을 입력받는 기능
+  > 없는 기능 기호이면 예외처리
+- [ ] 과정과 미션을 출력하는 기능
+- [ ] 과정, 레벨, 미션을 입력받는 기능
+- [ ] 파일에서 크루원의 이름을 읽어오는 기능
+- [ ] 읽어온 크루원의 이름으로 리스트를 생성하는 기능
+- [ ] 크루원의 이름을 무작위로 섞은 리스트를 생성하는 기능
+- [ ] 페어 매칭을 하는 기능
+- [ ] 페어 매칭을 조회하는 기능
+- [ ] 페어 매칭을 초기화하는 기능
