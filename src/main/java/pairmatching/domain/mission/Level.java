@@ -1,4 +1,4 @@
-package pairmatching.domain;
+package pairmatching.domain.mission;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,8 @@ public enum Level {
     LEVEL4("레벨4"),
     LEVEL5("레벨5");
 
-    private String level;
+    private static final String ERROR_LEVEL = "[ERROR] 존재하지 않는 레벨입니다.";
+    private final String level;
 
     Level(String level) {
         this.level = level;
@@ -27,5 +28,14 @@ public enum Level {
             levels.add("  - " + level.getLevel() + ": ");
         }
         return levels;
+    }
+
+    public static void validate(String inputLevel) {
+        for(Level level : Level.values()) {
+            if(level.getLevel().equals(inputLevel)) {
+                return;
+            }
+        }
+        throw new IllegalArgumentException(ERROR_LEVEL);
     }
 }

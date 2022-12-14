@@ -5,13 +5,17 @@ import java.util.List;
 
 public class Missions {
 
-    List<List<String>> missions  = new ArrayList<>();
+    List<MissionList> missions  = new ArrayList<>();
 
-    public void addMissionList(List<String>missionList){
+    public void addMissionList(MissionList missionList){
         missions.add(missionList);
     }
 
-    public List<List<String>>getMissionList(){
-        return missions;
+    public MissionList getMissionList(int i){
+        return missions.get(i);
+    }
+
+    public int size() {
+        return missions.size();
     }
 }

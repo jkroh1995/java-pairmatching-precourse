@@ -5,37 +5,17 @@ import java.util.List;
 
 public class MissionList {
 
+    List<Mission> missionList;
 
-    public List<String> getLevelOneMissionList(){
-        List<String> missionList = new ArrayList<>();
-        for(MissionLevelOne mission : MissionLevelOne.values()){
-            missionList.add(mission.getMission());
+    public MissionList(List<Mission> missionList) {
+        this.missionList = missionList;
+    }
+
+    public List<String> getMissionNames() {
+        List<String>missionNames = new ArrayList<>();
+        for (Mission mission : missionList) {
+            missionNames.add(mission.getMission());
         }
-        return missionList;
+        return missionNames;
     }
-
-    public List<String> getLevelTwoMissionList(){
-        List<String> missionList = new ArrayList<>();
-        for(MissionLevelTwo mission : MissionLevelTwo.values()){
-            missionList.add(mission.getMission());
-        }
-        return missionList;
-    }
-
-    public List<String> getLevelThreeMissionList(){
-        return new ArrayList<>();
-    }
-
-    public List<String> getLevelFourMissionList(){
-        List<String> missionList = new ArrayList<>();
-        for(MissionLevelFour mission : MissionLevelFour.values()){
-            missionList.add(mission.getMission());
-        }
-        return missionList;
-    }
-
-    public List<String> getLevelFiveMissionList(){
-        return new ArrayList<>();
-    }
-
 }
