@@ -29,7 +29,7 @@ public class Pairs {
 
     public Pair getPair(UserSelect userSelect) {
         for (Pair pair : pairs) {
-            if (pair.getKey().equals(userSelect.getUserSelect())) {
+            if (pair.getKey().equals(userSelect.toString())) {
                 return pair;
             }
         }

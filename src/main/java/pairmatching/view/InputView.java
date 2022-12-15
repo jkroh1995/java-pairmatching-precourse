@@ -1,19 +1,22 @@
 package pairmatching.view;
 
 import camp.nextstep.edu.missionutils.Console;
-import pairmatching.domain.OperationIndex;
+import pairmatching.domain.Operation;
 import pairmatching.domain.RematchingIndex;
+import pairmatching.domain.mission.Course;
+import pairmatching.domain.mission.Level;
+import pairmatching.domain.mission.Mission;
 import pairmatching.domain.mission.UserSelect;
 
 public class InputView {
 
     OutputView outputView = new OutputView();
 
-    public OperationIndex readOperation() {
+    public Operation readOperation() {
         try {
             outputView.printOperation();
             String inputOperation = Console.readLine();
-            return OperationIndex.getValue(inputOperation);
+            return Operation.getValue(inputOperation);
         } catch (IllegalArgumentException e) {
             outputView.printError(e.getMessage());
             return readOperation();
@@ -23,8 +26,11 @@ public class InputView {
     public UserSelect readUserSelect() {
         try {
             outputView.printRequire();
-            String input = Console.readLine();
-            return new UserSelect(makeArrayForValidate(input));
+            String [] userInput = makeArrayForValidate(Console.readLine());
+            Course course = new Course(userInput[0]);
+            Level level = new Level(userInput[1]);
+            Mission mission  = new Mission(level, userInput[2]);
+            return new UserSelect(course, level, mission);
         } catch (IllegalArgumentException e) {
             outputView.printError(e.getMessage());
             return readUserSelect();

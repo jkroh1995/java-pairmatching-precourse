@@ -2,11 +2,9 @@ package pairmatching.controller;
 
 import pairmatching.controller.domain.MissionController;
 import pairmatching.controller.domain.PairController;
-import pairmatching.domain.mission.Course;
-import pairmatching.domain.mission.Level;
 import pairmatching.domain.pair.Pair;
 import pairmatching.domain.mission.UserSelect;
-import pairmatching.domain.OperationIndex;
+import pairmatching.domain.Operation;
 import pairmatching.view.InputView;
 import pairmatching.view.OutputView;
 
@@ -19,44 +17,43 @@ public class SystemController {
     OutputView outputView = new OutputView();
 
     public void run() {
-        OperationIndex operation = inputView.readOperation();
+        Operation operation = inputView.readOperation();
         isMatching(operation);
         isSearching(operation);
         isInitializing(operation);
     }
 
-    private void isMatching(OperationIndex operation) {
-        if (operation == OperationIndex.MATCHING) {
-            outputView.printCourseAndMission(Level.getLevels(), missionController.getMissions());
+    private void isMatching(Operation operation) {
+        if (operation == Operation.MATCHING) {
+            missionController.printCourseAndMission(outputView);
             operateMatching();
         }
     }
 
-    private void isSearching(OperationIndex operation) {
-        if (operation == OperationIndex.SEARCHING) {
-            outputView.printCourseAndMission(Level.getLevels(), missionController.getMissions());
+    private void isSearching(Operation operation) {
+        if (operation == Operation.SEARCHING) {
+            missionController.printCourseAndMission(outputView);
             operateSearching();
         }
     }
 
-    private void isInitializing(OperationIndex operation) {
-        if (operation == OperationIndex.INITIALIZING) {
+    private void isInitializing(Operation operation) {
+        if (operation == Operation.INITIALIZING) {
             operateInitialize();
         }
     }
 
     private void operateMatching() {
-        UserSelect userSelect = inputView.readUserSelect();
-        if (userSelect.getCourse().equals(Course.BACKEND.getCourse())) {
-            matchBackendCrew(userSelect);
+        missionController.makeUserSelect(inputView);
+        if (missionController.isBackEnd()) {
+            matchBackendCrew(missionController.getUserSelect());
+            return;
         }
-        if (userSelect.getCourse().equals(Course.FRONTEND.getCourse())) {
-            matchFrontendCrew(userSelect);
-        }
+        matchFrontendCrew(missionController.getUserSelect());
     }
 
     private void matchFrontendCrew(UserSelect userSelect) {
-        Pair pair = pairController.makeFrontendPair(userSelect);
+        Pair pair = pairController.makeFrontendPair(userSelect, missionController);
         if (pair != null) {
             outputView.printPair(pair.getPairList(userSelect));
             run();
@@ -66,7 +63,7 @@ public class SystemController {
     }
 
     private void matchBackendCrew(UserSelect userSelect) {
-        Pair pair = pairController.makeBackendPair(userSelect);
+        Pair pair = pairController.makeBackendPair(userSelect, missionController);
         if (pair != null) {
             outputView.printPair(pair.getPairList(userSelect));
             run();
@@ -76,13 +73,12 @@ public class SystemController {
     }
 
     private void operateSearching() {
-        UserSelect userSelect = inputView.readUserSelect();
-        if (userSelect.getCourse().equals(Course.BACKEND.getCourse())) {
-            searchBackendCrew(userSelect);
+        missionController.makeUserSelect(inputView);
+        if (missionController.isBackEnd()) {
+            searchBackendCrew(missionController.getUserSelect());
+            return;
         }
-        if (userSelect.getCourse().equals(Course.FRONTEND.getCourse())) {
-            searchFrontendCrew(userSelect);
-        }
+        searchFrontendCrew(missionController.getUserSelect());
     }
 
     private void searchFrontendCrew(UserSelect userSelect) {

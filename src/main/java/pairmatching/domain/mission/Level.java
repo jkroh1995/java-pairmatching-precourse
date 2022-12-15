@@ -1,41 +1,41 @@
 package pairmatching.domain.mission;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public enum Level {
-
-    LEVEL1("레벨1"),
-    LEVEL2("레벨2"),
-    LEVEL3("레벨3"),
-    LEVEL4("레벨4"),
-    LEVEL5("레벨5");
+public class Level {
 
     private static final String ERROR_LEVEL = "[ERROR] 존재하지 않는 레벨입니다.";
-    private final String level;
+    private static final String LEVEL1 = "레벨1";
+    private static final String LEVEL2 = "레벨2";
+    private static final String LEVEL3 = "레벨3";
+    private static final String LEVEL4 = "레벨4";
+    private static final String LEVEL5 = "레벨5";
 
-    Level(String level) {
+    String level;
+
+    public Level(String level) {
         this.level = level;
+        validate();
     }
 
     public String getLevel() {
         return level;
     }
 
-    public static List<String> getLevels() {
-        List<String> levels = new ArrayList<>();
-        for (Level level : Level.values()) {
-            levels.add("  - " + level.getLevel() + ": ");
-        }
-        return levels;
-    }
-
-    public static void validate(String inputLevel) {
-        for(Level level : Level.values()) {
-            if(level.getLevel().equals(inputLevel)) {
+    private void validate() {
+        List<String> levelList = Arrays.asList(LEVEL1, LEVEL2, LEVEL3, LEVEL4, LEVEL5);
+        for (String eachLevel : levelList) {
+            if (eachLevel.equals(level)) {
                 return;
             }
         }
         throw new IllegalArgumentException(ERROR_LEVEL);
+    }
+
+    public String toString() {
+        return "  - "
+                + level
+                + ": ";
     }
 }

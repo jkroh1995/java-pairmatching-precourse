@@ -2,7 +2,6 @@ package pairmatching.controller.domain;
 
 import java.util.ArrayList;
 import java.util.List;
-import pairmatching.domain.mission.Course;
 import pairmatching.util.ResourceReader;
 import pairmatching.domain.RematchingIndex;
 import pairmatching.domain.mission.UserSelect;
@@ -23,8 +22,8 @@ public class PairController {
     private final List<String> backendCrewNames = resourceReader.getBackendCrewList();
     private final List<String> frontendCrewNames= resourceReader.getFrontendCrewList();
 
-    public Pair makeBackendPair(UserSelect userSelect) {
-        pair = new Pair(userSelect, getBackendCrewList());
+    public Pair makeBackendPair(UserSelect userSelect, MissionController missionController) {
+        pair = new Pair(userSelect, getBackendCrewList(missionController));
         if (pairs.notHavePair(pair)) {
             pairs.addPair(pair);
             return pair;
@@ -32,8 +31,8 @@ public class PairController {
         return reMatching(pair);
     }
 
-    public Pair makeFrontendPair(UserSelect userSelect) {
-        pair = new Pair(userSelect, getFrontendCrewList());
+    public Pair makeFrontendPair(UserSelect userSelect, MissionController missionController) {
+        pair = new Pair(userSelect, getFrontendCrewList(missionController));
         if (pairs.notHavePair(pair)) {
             pairs.addPair(pair);
             return pair;
@@ -73,18 +72,18 @@ public class PairController {
         return null;
     }
 
-    private List<Crew> getBackendCrewList() {
+    private List<Crew> getBackendCrewList(MissionController missionController) {
         List<Crew> backendCrew = new ArrayList<>();
         for (String backendCrewName : backendCrewNames) {
-            backendCrew.add(new Crew(Course.BACKEND, backendCrewName));
+            backendCrew.add(new Crew(missionController.getBackend(), backendCrewName));
         }
         return backendCrew;
     }
 
-    private List<Crew> getFrontendCrewList() {
+    private List<Crew> getFrontendCrewList(MissionController missionController) {
         List<Crew> frontendCrew = new ArrayList<>();
         for (String frontendCrewName : frontendCrewNames) {
-            frontendCrew.add(new Crew(Course.FRONTEND, frontendCrewName));
+            frontendCrew.add(new Crew(missionController.getFrontend(), frontendCrewName));
         }
         return frontendCrew;
     }

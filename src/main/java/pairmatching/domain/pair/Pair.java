@@ -9,24 +9,36 @@ import pairmatching.domain.mission.UserSelect;
 
 public class Pair {
 
-    Map<String, List<Crew>> pair = new HashMap();
+    Map<UserSelect, List<Crew>> pair = new HashMap();
 
     public Pair(UserSelect userSelect, List<Crew> backendCrewList) {
         backendCrewList = Randoms.shuffle(backendCrewList);
-        pair.put(userSelect.getUserSelect(), backendCrewList);
+        pair.put(userSelect, backendCrewList);
     }
 
     public String getKey() {
-        String key = String.valueOf(pair.keySet());
-        return key.substring(1,key.length()-1);
+        StringBuilder key= new StringBuilder();
+        for(UserSelect userSelect : pair.keySet()){
+            key.append(userSelect.toString());
+        }
+        return key.toString();
     }
 
     public List<List<String>> getPairList(UserSelect userSelect) {
-        List<Crew>crewList = pair.get(userSelect.getUserSelect());
+        List<Crew>crewList = getCrewList(userSelect);
         List<List<String>>pairList = new ArrayList<>();
         evenNumberCrews(crewList, pairList);
         oddNumberCrews(crewList, pairList);
         return pairList;
+    }
+
+    private List<Crew> getCrewList(UserSelect userSelect){
+        for(UserSelect eachUserSelect : pair.keySet()){
+            if (eachUserSelect.toString().equals(userSelect.toString())){
+                return pair.get(eachUserSelect);
+            }
+        }
+        return null;
     }
 
     private void oddNumberCrews(List<Crew> crewList, List<List<String>> pairList) {

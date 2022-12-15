@@ -7,7 +7,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import camp.nextstep.edu.missionutils.test.NsTest;
 import java.util.Arrays;
 import org.junit.jupiter.api.Test;
-import pairmatching.Application;
+import pairmatching.domain.mission.Course;
+import pairmatching.domain.pair.Crew;
 
 class ApplicationTest extends NsTest {
 
@@ -20,7 +21,21 @@ class ApplicationTest extends NsTest {
                 run("1", "백엔드, 레벨1, 자동차경주", "Q");
                 assertThat(output()).contains("태웅 : 백호", "치수 : 태섭");
             },
-            Arrays.asList("태웅", "백호", "치수", "태섭")
+            Arrays.asList(new Crew(new Course("백엔드"), "태웅"), new Crew(new Course("백엔드"), "백호"),
+                    new Crew(new Course("백엔드"),"치수"), new Crew(new Course("백엔드"), "태섭"))
+        );
+    }
+
+    @Test
+    void 홀수_인원_페어_매칭() {
+        assertShuffleTest(
+                () -> {
+                    run("1", "백엔드, 레벨1, 자동차경주", "Q");
+                    assertThat(output()).contains("태웅 : 백호", "치수 : 태섭 : 준호");
+                },
+                Arrays.asList(new Crew(new Course("백엔드"), "태웅"), new Crew(new Course("백엔드"), "백호"),
+                        new Crew(new Course("백엔드"),"치수"), new Crew(new Course("백엔드"), "태섭"),
+                        new Crew(new Course("백엔드"), "준호"))
         );
     }
 

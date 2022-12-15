@@ -1,38 +1,58 @@
 package pairmatching.domain.mission;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Objects;
 
-public enum Course {
-
-    BACKEND("백엔드"),
-    FRONTEND("프론트엔드");
+public class Course {
 
     private static final String ERROR_COURSE = "[ERROR] 존재하지 않는 과정입니다.";
-    private final String course;
+    private static final String FRONTEND = "프론트엔드";
+    private static final String BACKEND = "백엔드";
 
-    Course(String course) {
+    String course;
+
+    public Course(String course) {
         this.course = course;
+        validate();
+    }
+
+    private void validate() {
+        if (!course.equals(BACKEND) && !course.equals(FRONTEND)) {
+            throw new IllegalArgumentException(ERROR_COURSE);
+        }
+    }
+
+    public static String getCourses() {
+        return BACKEND
+                + " | "
+                + FRONTEND;
+    }
+
+    public Course getBackend() {
+        return new Course(BACKEND);
+    }
+
+    public Course getFrontend() {
+        return new Course(FRONTEND);
     }
 
     public String getCourse() {
         return course;
     }
 
-    public static String getCourses() {
-        List<String> courses = new ArrayList<>();
-        for (Course course : Course.values()) {
-            courses.add(course.getCourse());
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
         }
-        return String.join(" | ", courses);
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Course course1 = (Course) o;
+        return Objects.equals(course, course1.course);
     }
 
-    public static void validate(String inputCourse) {
-        for (Course course : Course.values()) {
-            if (course.getCourse().equals(inputCourse)) {
-                return;
-            }
-        }
-        throw new IllegalArgumentException(ERROR_COURSE);
+    @Override
+    public int hashCode() {
+        return Objects.hash(course);
     }
 }
